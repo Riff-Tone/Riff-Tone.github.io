@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @font-face {
+            font-family: 'RustyHooksRegular-nROER';
+            src: url('../Fonts/RustyHooksRegular-nROER.ttf') format('woff2'),
+                url('../Fonts/RustyHooksRegular-nROER.ttf') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'RustyHooksRegular-nROER';
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            background-color: #84ccf2;
+        }
+
+        .header {
+            min-height: 10%;
+            text-decoration: underline;
+            font-weight: bold;
+            text-align: center;
+            border: 1px solid #84ccf2;
+        }
+
+        .text {
+            border: 1px solid #84ccf2;
+            margin-top: 2rem;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 90%;
+            background-color: #84ccf2;
+        }
+
+        .parent_container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 30%;
+        }
+
+        .shape-container {
+            flex-grow: 1;
+            flex: 0.6;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+            border: 3px solid black;
+            text-align: center;
+            margin: 24% 8% 10% 8%;
+            height: 100px;
+            width: 100px; 
+            min-height: 3.5in;
+            z-index: 1;
+        }
+        #rectangle_container{
+            background:url("../Images/sorting_Shapes_rectangle.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        #triangle_container{
+            background:url("../Images/sorting_Shapes_triangle.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+        #circle_container{
+            background:url("../Images/sorting_shapes_circle.png");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container_pick_and_drag {
+            background-color: #56b9ed;
+            border-top: 3px solid black;
+            height: 10rem;
+            
+        }
+        #pick-and-drag-container{
+            display: flex;
+            justify-content: space-between;
+            align-content: space-between;
+            padding: 0;
+            margin: 0 .5rem 0rem 0.5rem;
+        }
+
+        .rectangle {
+            height: 80px;
+            width: 120px;
+            background-color: blue;
+        }
+
+        .circle {
+            height: 100px;
+            width: 100px;
+            background-color: #555;
+            border-radius: 50%;
+        }
+
+
+        .triangle-up {
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 50px 80px 50px;
+            border-color: transparent transparent #007bff transparent;
+            background-color: transparent;
+        }
+
+        #counter {
+            font-size: 20px;
+            top: 1rem;
+            right:2rem;
+            width: 100%;
+        }
+
+        .top-right {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 1rem;
+            text-align: right;
+        }
+        #instructions{
+            padding: .8rem;
+            text-align: center;
+            top:5rem
+        }
+        .button_container{
+            width: 5rem;
+            height: 3rem;
+            position: absolute;
+            left: 1rem;
+            top: 1rem;
+            background-color: #f0ece7;
+            border: 1px solid black;
+            color: black;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'RustyHooksRegular-nROER';
+        }
+        #back{
+            text-decoration: none; 
+            color: black; 
+        }
+        .heart_Containers{
+            position: absolute;
+            right: 5rem;
+            top: 3rem;
+            width: 9rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #heart1, #heart2, #heart3{
+            width: 2.5rem;
+            height: 100%;
+            background: url('../Images/red_heart_transparent.png');
+            background-position: center;
+            background-size: contain;
+        }
+    </style>
+</head>
+<body>
+    <title>Kids Playtime</title>
+    <div class="heart_Containers">
+        <div id="heart1"></div>
+        <div id="heart2"></div>
+        <div id="heart3"></div>
+    </div>
+    <div class="header">
+        <div class="button_container">
+            <a id='back' href="../index.html">back</a>
+        </div>
+        <h1 style="font-size: 1.5rem;" class="text">Sorting Shapes</h1>
+        <p id="counter" class="top-right">Correct Placements: 0</p>
+    </div>
+
+    <div class="content">
+        <div class="parent_container">
+            <div class="shape-container" id="rectangle_container" data-correct-shape="rectangle"></div>
+            <div class="shape-container" id="triangle_container" data-correct-shape="triangle"></div>
+            <div class="shape-container" id="circle_container" data-correct-shape="circle"></div>
+        </div>
+
+        <div class="container_pick_and_drag">
+            <p style="font-size: 1rem;" id='instructions'>Pick and drag a shape to its correct station</p>
+            <div id="pick-and-drag-container"></div>
+        </div>
+    </div>
+    <script>
+        let wrongAnswerCounter = 0;
+
+        function removeHeart() {
+            if (wrongAnswerCounter < 3) {
+                const heartId = `heart${wrongAnswerCounter + 1}`;
+                const heart = document.getElementById(heartId);
+                
+                if (heart) {
+                    heart.style.background = "transparent";
+                    wrongAnswerCounter += 1;
+                }
+
+                if (wrongAnswerCounter === 3) {
+                    window.location.href = "gameOver_Page.html";
+                }
+            }
+        }
+        function generateRandomShapes() {
+            const container = document.getElementById("pick-and-drag-container");
+            container.innerHTML = '';
+    
+            const shapes = ["rectangle", "circle", "triangle"];
+            const totalShapes = 10;
+    
+            for (let i = 0; i < totalShapes; i++) {
+                const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+    
+                const shapeElement = document.createElement("div");
+                shapeElement.classList.add("draggable-shape");
+                shapeElement.dataset.shape = randomShape;
+    
+                let shapeHtml = "";
+                if (randomShape === "rectangle") {
+                    shapeHtml = '<div class="rectangle"></div>';
+                } else if (randomShape === "circle") {
+                    shapeHtml = '<div class="circle"></div>';
+                } else if (randomShape === "triangle") {
+                    shapeHtml = '<div class="triangle-up"></div>';
+                }
+                shapeElement.innerHTML = shapeHtml;
+                container.appendChild(shapeElement);
+            }
+    
+            const draggableShapes = document.querySelectorAll('.draggable-shape');
+    
+                draggableShapes.forEach((shape) => {
+                    shape.draggable = true;
+        
+                    shape.addEventListener('dragstart', (e) => {
+                        e.dataTransfer.setData('text/plain', e.target.dataset.shape);
+                    });
+                });
+        }
+    
+        window.addEventListener("load", generateRandomShapes);
+    
+            const shapeContainers = document.querySelectorAll('.shape-container');
+        
+            shapeContainers.forEach((container) => {
+                container.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                });
+        
+                container.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    const droppedShape = e.dataTransfer.getData('text/plain');
+                    const correctShape = container.dataset.correctShape;
+        
+                    if (droppedShape === correctShape) {
+                        const counter = document.getElementById('counter');
+                        const currentCount = parseInt(counter.textContent.split(" ")[2]);
+                        counter.textContent = `Correct Placements: ${currentCount + 1}`;
+                        const shapeToRemove = document.querySelector(`[data-shape="${droppedShape}"]`);
+                        shapeToRemove.remove();
+                        checkForCompletion();
+                    }
+                    else{
+                        removeHeart();
+                    }
+                });
+            });
+            function checkForCompletion() {
+                const counter = document.getElementById('counter');
+                const currentCount = parseInt(counter.textContent.split(" ")[2]);
+
+                if (currentCount == 10) {
+                    window.location.href = "congratulations_Page.html";
+                }
+                if(wrongAnswerCounter == 3){
+                    window.location.href = "gameOver_Page.html";
+                }
+            }
+        </script>
+</body>
+</html>

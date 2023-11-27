@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids Playtime</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <style>
+        /*
+        Pivot to not shapes but letter figuress, like A, T E, M,N , etc 
+        */
+        @font-face {
+            font-family: 'RustyHooksRegular';
+            src: url('../Fonts/RustyHooksRegular-nROER.ttf') format('woff2'),
+            url("../Fonts/RustyHooksRegular-nROER.ttf") format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+        #button_back {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
+        #header{
+            border:1px solid black;
+            font-family: 'RustyHooksRegular';
+            font-size: 2rem;
+            margin: 2rem;
+        }
+        #drawingCanvas{
+            margin: 2rem;
+            border: 1px solid black;
+            height: 20rem;
+            width: 20rem;
+        }
+    </style>
+</head>
+    <body>
+        <a href="../index.html">
+            <button type="button" class="top-left" id="button_back">Quit</button>
+        </a>
+        <div id="header">Tracing Figures</div>
+        <div id="drawingCanvas"></div>
+    <script>
+        let p5Canvas;
+        let isDrawing = false;
+        let shapeType = "rectangle";
+
+        function setup() {
+            p5Canvas = createCanvas(200, 200);
+            p5Canvas.parent('drawingCanvas');
+            background(255);
+        }
+        
+        function draw() {
+            if (isDrawing) {
+                stroke(0);
+                strokeWeight(2);
+                noFill();
+                if (shapeType === "rectangle") {
+                }
+            }
+        }
+
+        function mousePressed() {
+            isDrawing = true;
+        }
+
+        function mouseReleased() {
+            isDrawing = false;
+        }
+
+    </script>
+    </body>
+</html>
