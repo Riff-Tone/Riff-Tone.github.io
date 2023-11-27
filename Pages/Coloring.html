@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Leonardo</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #B0E0E6; /* baby blue color */
+            font-family: 'Arial', sans-serif;
+        }
+
+        #canvas-container {
+            position: relative;
+            border: 1px solid black;
+            background: url("../Images/Bird_1080.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.8; /* Adjust the opacity value as needed */
+            background-color: white;
+            margin-top: 20px;
+        }
+
+        #title {
+            text-align: center;
+            margin-top: 50px; /* Adjusted margin-top */
+            font-size: 24px; /* Adjusted font size */
+            color: #333;
+            text-decoration: underline; /* Underline the title */
+            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        #save-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #save-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+</head>
+<body>
+    <div id="title">
+        <h1>Little Leonardo</h1>
+    </div>
+    <div id="canvas-container"></div>
+    <button id="save-button" onclick="saveDrawing()">Save Drawing</button>
+
+    <script>
+        let colors = []; 
+        let selectedColor; 
+        let drawings = [];
+
+        function setup() {
+            let cnv = createCanvas(500, 500); 
+            cnv.parent('canvas-container');
+            colors = [color('#FF0000'), color('#FFA07A'), color('#FFD700'), color('#ADFF2F'), color('#32CD32'), color('#00FF00'), color('#00FFFF'), color('#7FFFD4'), color('#0000FF'), color('#8A2BE2'), color('#FF00FF'), color('#FF69B4')];
+            selectedColor = colors[0]; 
+
+            colorPicker = createInput("#000000", "color");
+            colorPicker.position(10, 50);
+            colorPicker.input(changeColor);
+        }
+
+        function changeColor() {
+            selectedColor = color(colorPicker.value());
+        }
+
+        function draw() {
+            // No need for draw in an infinite canvas
+        }
+
+        function mousePressed() {
+            for (let i = 0; i < colors.length; i++) {
+                if (mouseX > 10 + i * 30 && mouseX < 40 + i * 30 && mouseY > 10 && mouseY < 40) {
+                    selectedColor = colors[i];
+                    return;
+                }
+            }
+            let newDraw = {
+                x: mouseX,
+                y: mouseY,
+                col: selectedColor
+            };
+            drawings.push(newDraw);
+            let fillColor = color(newDraw.col.levels[0], newDraw.col.levels[1], newDraw.col.levels[2], 10); 
+            fill(fillColor);
+            noStroke();
+            ellipse(newDraw.x, newDraw.y, 20, 20); 
+        }
+
+        function mouseDragged() {
+            let newDraw = {
+                x: mouseX,
+                y: mouseY,
+                col: selectedColor
+            };
+            drawings.push(newDraw);
+            let fillColor = color(newDraw.col.levels[0], newDraw.col.levels[1], newDraw.col.levels[2], 10); 
+            fill(fillColor);
+            noStroke();
+            ellipse(newDraw.x, newDraw.y, 20, 20); 
+        }
+
+        function mouseMoved() {
+            cursor('default');
+            for (let i = 0; i < colors.length; i++) {
+                if (mouseX > 10 + i * 30 && mouseX < 40 + i * 30 && mouseY > 10 && mouseY < 40) {
+                    cursor('pointer');
+                    break;
+                }
+            }
+        }
+
+        function saveDrawing() {
+            saveCanvas('myDrawing', 'png');
+        }
+    </script>
+</body>
+</html>
