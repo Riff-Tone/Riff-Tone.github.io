@@ -3,148 +3,316 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Leonardo</title>
+    <title>Word Association Game</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #84ccf2;
-            font-family: 'Arial', sans-serif;
-        }
+	* {
+    font-family: Helvetica;
+}
 
-        #canvas-container {
-            position: relative;
-            border: 1px solid black;
-            background: url("../Images/Bird_1080.png");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.8; /* Adjust the opacity value as needed */
-            background-color: white;
-        }
 
-        #title {
-            text-align: center;
-            font-size: 24px; /* Adjusted font size */
-            color: #333;
-            text-decoration: underline; /* Underline the title */
-            text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-        }
+body {
+    background-image: url("wallpaperflare.com_wallpaper.jpg");
+    height: 500px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #cccccc;
+    opacity: 0.9;
+}
 
-        #save-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
 
-        #save-button:hover {
-            background-color: #45a049;
-        }
-        .top-left {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-        #button_back {
-            background-color: #6fa8dcff;
-            color: black;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 15px;
-            transition-duration: 0.4s;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+#one.square {
+    height: 100px;
+    width: 100%;
+    padding: 0%;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: yellow;
+    margin-left: -4px;
+    margin-top: -10px;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#one.square h1 {
+    font-size: 48px;
+    color: blueviolet;
+    text-shadow: 0.5px 0.5px black;
+}
+
+
+.regquestion {
+    text-align: center;
+    font-size: 36px;
+    color: white;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+
+
+#questionnaire.square {
+    height: 100px;
+    width: 270px;
+    padding: 0%;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: rgb(0, 229, 255);
+    border-radius: 15px;
+    margin-top: -10px;
+    margin-bottom: 0px;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#questionnaire.square p, #letterA.square p, #letterB.square p, #letterC.square p, #letterD.square p{
+    font-size: 36px;
+    color: black;
+    text-shadow: 0.5px 0.5px yellowgreen;
+}
+
+
+.firsttwodoubles, .seconddoubles {
+    display: flex;
+    justify-content: center;
+}
+
+
+#letterA.square {
+    height: 100px;
+    width: 270px;
+    border-radius: 15px;
+    padding: 0%;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: rgb(255, 145, 0);
+    margin-top: 32px;
+    margin-bottom: 0px;
+    margin-right: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#letterB.square {
+    height: 100px;
+    width: 270px;
+    padding: 0%;
+    border-radius: 15px;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: rgb(247, 0, 255);
+    margin-top: 32px;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#letterC.square {
+    height: 100px;
+    width: 270px;
+    padding: 0%;
+    border-radius: 15px;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: rgb(229, 255, 0);
+    margin-top: 32px;
+    margin-bottom: 0px;
+    margin-right: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#letterD.square {
+    height: 100px;
+    width: 270px;
+    padding: 0%;
+    border-radius: 15px;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: rgb(0, 255, 51);
+    margin-top: 32px;
+    margin-bottom: 0px;
+    margin-right: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#returnButton.square {
+    height: 30px;
+    width: 100px;
+    padding: 0%;
+    border: 3px solid rgb(9, 123, 9);
+    background-color: white;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+#returnButton.square button {
+    font-size: 18px;
+    color: palevioletred;
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+
+#correctCounterBox.square {
+    height: 20px;
+    width: 100px;
+    padding: 0%;
+    border: 1.5px solid rgb(9, 123, 9);
+    background-color: greenyellow;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
 </head>
 <body>
-    <div id="title">
-        <h1>Little Leonardo</h1>
+    <div class="square" id="one">
+        <h1>WORD ASSOCIATION GAME</h1>
     </div>
-    <a href="../index.html">
-      <button type="button" class="top-left" id="button_back">Quit</button>
-    </a>
-    <div id="canvas-container"></div>
-    <button id="save-button" onclick="saveDrawing()">Save Drawing</button>
+
+
+    <div class="square" id="returnButton">
+        <button onclick="goBack()">Return</button>
+    </div>
+   
+    <div class="square" id="correctCounterBox">
+        <div id="correctCounter" style="text-align: center; font-size: 18px; color: green;">
+            Correct: 0
+        </div>
+    </div>
+
+
+    <p class="regquestion"><strong>Find the odd one out - with:</strong></p>
+
+
+    <div class="square" id="questionnaire" style="opacity: 0;">
+        <p>Cat</p>
+    </div>
+
+
+    <div class="firsttwodoubles">
+        <div class="square" id="letterA" style="opacity: 0;" onclick="checkAnswer('letterA')"><p>Dog</p></div>
+        <div class="square" id="letterB" style="opacity: 0;" onclick="checkAnswer('letterB')"><p>Parrot</p></div>
+    </div>
+
+
+    <div class="seconddoubles">
+        <div class="square" id="letterC" style="opacity: 0;" onclick="checkAnswer('letterC')"><p>Mouse</p></div>
+        <div class="square" id="letterD" style="opacity: 0;" onclick="checkAnswer('letterD')"><p>Cart</p></div>
+    </div>
+
+
+    <div id="correctMessage" style="display: none; text-align: center; font-size: 24px; color: green; margin-top: 20px;">
+        Correct!
+    </div>
+
+
+    <div id="incorrectMessage" style="display: none; text-align: center; font-size: 24px; color: red; margin-top: 20px;">
+        Incorrect!
+    </div>
+
 
     <script>
-        let colors = []; 
-        let selectedColor; 
-        let drawings = [];
+        var correctCounter = 0;
 
-        function setup() {
-            let cnv = createCanvas(500, 500); 
-            cnv.parent('canvas-container');
-            colors = [color('#FF0000'), color('#FFA07A'), color('#FFD700'), color('#ADFF2F'), color('#32CD32'), color('#00FF00'), color('#00FFFF'), color('#7FFFD4'), color('#0000FF'), color('#8A2BE2'), color('#FF00FF'), color('#FF69B4')];
-            selectedColor = colors[0]; 
 
-            colorPicker = createInput("#000000", "color");
-            colorPicker.position(10, 50);
-            colorPicker.input(changeColor);
-        }
-
-        function changeColor() {
-            selectedColor = color(colorPicker.value());
-        }
-
-        function draw() {
-            // No need for draw in an infinite canvas
-        }
-
-        function mousePressed() {
-            for (let i = 0; i < colors.length; i++) {
-                if (mouseX > 10 + i * 30 && mouseX < 40 + i * 30 && mouseY > 10 && mouseY < 40) {
-                    selectedColor = colors[i];
-                    return;
+        function fadeInElement(element) {
+            var opacity = 0;
+            var intervalId = setInterval(function () {
+                if (opacity >= 1) {
+                    clearInterval(intervalId);
+                } else {
+                    opacity += 0.1;
+                    element.style.opacity = opacity;
                 }
-            }
-            let newDraw = {
-                x: mouseX,
-                y: mouseY,
-                col: selectedColor
-            };
-            drawings.push(newDraw);
-            let fillColor = color(newDraw.col.levels[0], newDraw.col.levels[1], newDraw.col.levels[2], 10); 
-            fill(fillColor);
-            noStroke();
-            ellipse(newDraw.x, newDraw.y, 20, 20); 
+            }, 100);
         }
 
-        function mouseDragged() {
-            let newDraw = {
-                x: mouseX,
-                y: mouseY,
-                col: selectedColor
-            };
-            drawings.push(newDraw);
-            let fillColor = color(newDraw.col.levels[0], newDraw.col.levels[1], newDraw.col.levels[2], 10); 
-            fill(fillColor);
-            noStroke();
-            ellipse(newDraw.x, newDraw.y, 20, 20); 
-        }
 
-        function mouseMoved() {
-            cursor('default');
-            for (let i = 0; i < colors.length; i++) {
-                if (mouseX > 10 + i * 30 && mouseX < 40 + i * 30 && mouseY > 10 && mouseY < 40) {
-                    cursor('pointer');
-                    break;
+        function fadeIn(element) {
+            var opacity = 0;
+            var intervalId = setInterval(function () {
+                if (opacity >= 1) {
+                    clearInterval(intervalId);
+                } else {
+                    opacity += 0.1;
+                    element.style.opacity = opacity;
                 }
-            }
+            }, 100);
         }
 
-        function saveDrawing() {
-            saveCanvas('myDrawing', 'png');
+
+        function startFadingSequence() {
+            fadeInElement(document.getElementById('questionnaire'));
+
+
+            setTimeout(function () {
+                var answerElements = document.querySelectorAll('.square[id^="letter"]');
+                answerElements.forEach(function (answer) {
+                    fadeIn(answer);
+                });
+            }, 1000);
+        }
+
+
+        window.onload = startFadingSequence;
+
+
+        function goBack() {
+            alert("Returning to main screen.");
+        }
+
+
+        function checkAnswer(selectedId) {
+            var correctAnswerId = 'letterD';
+
+
+            var answerElements = document.querySelectorAll('.square[id^="letter"]');
+            answerElements.forEach(function (answer) {
+                answer.onclick = null;
+            });
+
+
+            if (selectedId === correctAnswerId) {
+                document.getElementById(selectedId).style.backgroundColor = 'green';
+
+
+                document.getElementById('correctMessage').style.display = 'block';
+
+
+                correctCounter++;
+            } else {
+                document.getElementById(selectedId).style.backgroundColor = 'red';
+
+
+                document.getElementById('incorrectMessage').style.display = 'block';
+            }
+
+
+            document.getElementById('correctCounter').innerText = 'Correct: ' + correctCounter;
         }
     </script>
 </body>
 </html>
+
