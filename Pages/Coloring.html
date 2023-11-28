@@ -11,8 +11,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #B0E0E6; /* baby blue color */
+            background-color: #84ccf2;
             font-family: 'Arial', sans-serif;
         }
 
@@ -25,12 +24,10 @@
             background-repeat: no-repeat;
             opacity: 0.8; /* Adjust the opacity value as needed */
             background-color: white;
-            margin-top: 20px;
         }
 
         #title {
             text-align: center;
-            margin-top: 50px; /* Adjusted margin-top */
             font-size: 24px; /* Adjusted font size */
             color: #333;
             text-decoration: underline; /* Underline the title */
@@ -53,6 +50,19 @@
         #save-button:hover {
             background-color: #45a049;
         }
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
 </head>
@@ -60,6 +70,9 @@
     <div id="title">
         <h1>Little Leonardo</h1>
     </div>
+    <a href="../index.html">
+      <button type="button" class="top-left" id="button_back">Quit</button>
+    </a>
     <div id="canvas-container"></div>
     <button id="save-button" onclick="saveDrawing()">Save Drawing</button>
 
