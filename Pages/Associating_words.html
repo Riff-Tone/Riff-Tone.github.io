@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kids_Playtime</title>
+    <style>
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background-color: #84ccf2;
+        }
+        @font-face {
+            font-family: 'SunnyspellsRegular';
+            src: url('../Fonts/SunnyspellsRegular-MV9ze.otf') format('woff2'),
+             url('../Fonts/SunnyspellsRegular-MV9ze.otf') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'RustyHooksRegular';
+            src: url('../Fonts/RustyHooksRegular-nROER.ttf') format('woff2'),
+            url("../Fonts/RustyHooksRegular-nROER.ttf") format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        #instructions{
+            background-color: #84ccf2;
+            border-bottom: 3px solid black;
+            width: 50%;
+            height: 2rem;
+            display: flex;
+            align-items:center ;
+            justify-content: center;
+            font-family: 'RustyHooksRegular';
+            font-size: 1.8rem;
+            margin-top: 1rem;
+        }
+        #photo-container{
+            border: 2px solid black;
+            padding: 1rem;
+            margin: 3rem;
+            width: 26.66rem;
+            height: 15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+        }
+        #displayed-photo{
+            max-width: 100%;
+            max-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #container-answers{
+            width: 50%;
+            height: 2.5in;
+            position: relative;
+        }
+        .word-container{
+            border: 1px solid black;
+            max-width: 15rem;
+        }
+        #top-left{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 15rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #top-right{
+            position:absolute;
+            top:0;
+            right: 0;
+            width: 15rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #bottom-left{
+            position:absolute;
+            bottom: 0;
+            left: 0;
+            width: 15rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #bottom-right{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 15rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
+        #button_back:hover {
+            background-color: purple;
+        }
+        .answer-button{
+            width:100%;
+            height: 100%;
+            font-family: 'SunnyspellsRegular';
+            font-size: 3rem;
+        }
+        .heart_Containers{
+            position: absolute;
+            right: 8rem;
+            top:4rem;
+            width: 9rem;
+            height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        #heart1, #heart2, #heart3{
+            width: 2.5rem;
+            height: 100%;
+            background: url('../Images/red_heart_transparent.png');
+            background-position: center;
+            background-size: contain;
+        }
+        #counter{
+            font-family: 'RustyHooksRegular';
+            font-size: 1.5rem;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            right: 5rem;
+            top:1rem;
+            width: 15rem;
+            height: 2rem;
+            border: 1px solid black;
+            background-color: #f0ece7;
+        }
+    </style>
+</head>
+    <body>
+        <div class="heart_Containers">
+            <div id="heart1"></div>
+            <div id="heart2"></div>
+            <div id="heart3"></div>
+        </div>
+        <div id="counter">Get 4 correct: 0</div>
+        <div id="instructions">
+            Associate the correct word with the picture.
+        </div>
+        <a href="../index.html">
+            <button type="button" class="top-left" id="button_back">Quit</button>
+        </a>
+        <div id="photo-container">
+            <img id="displayed-photo" src="" alt="Displayed Photo">
+        </div>
+        <div id="container-answers">
+            <div class="word-container" id="top-left">
+                <button class="answer-button">word 1</button>
+            </div>
+            <div class="word-container" id="top-right">
+                <button class="answer-button">word 2</button>
+            </div>
+            <div class="word-container" id="bottom-left">
+                <button class="answer-button">word 3</button>
+            </div>
+            <div class="word-container" id="bottom-right">
+                <button class="answer-button">word 4</button>
+            </div>
+        </div>
+
+
+        <script>
+            const photoContainer = document.getElementById("photo-container");
+            const displayedPhoto = document.getElementById("displayed-photo");
+            const answerButtons = document.querySelectorAll(".answer-button");
+            const heartContainers = document.querySelectorAll(".heart_Containers .heart");
+            let wrongAnswerCounter = 0;
+            let count = 0;
+    
+            const photoData = [
+                { src: "../Images/Associating_Words_Car_Image.jpeg", correctAnswer: "Car" },
+                { src: "../Images/Associating_Words_Tree_Image.png", correctAnswer: "Tree" },
+                { src: "../Images/Associating_Words_Dog_Image.jpeg", correctAnswer: "Dog" },
+                { src: "../Images/Associating_Words_Sun_Image.jpeg", correctAnswer: "Sun" }
+            ];
+    
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            function displayNewCounter(){
+                const counter = document.getElementById('counter');
+                const currentCount = parseInt(counter.textContent.split(" ")[2]);
+                counter.textContent = `Get 4 correct: ${count}`;
+            }
+
+            function removeHeart() {
+                if (wrongAnswerCounter < 3) {
+                    const heartId = `heart${wrongAnswerCounter + 1}`;
+                    const heart = document.getElementById(heartId);
+                    
+                    if (heart) {
+                        heart.style.background = "transparent";
+                        wrongAnswerCounter += 1;
+                    }
+
+                    if (wrongAnswerCounter === 3) {
+                        window.location.href = "gameOver_Page.html";
+                    }
+                }
+            }
+
+            function assignAnswers() {
+                shuffleArray(photoData);
+                displayedPhoto.src = photoData[0].src;
+                const correctAnswer = photoData[0].correctAnswer;
+
+                shuffleArray(answerButtons);
+
+                answerButtons.forEach(button => {
+                    button.textContent = "";
+                });
+
+                const correctButtonIndex = Math.floor(Math.random() * answerButtons.length);
+                answerButtons[correctButtonIndex].textContent = correctAnswer;
+
+                const incorrectIndices = Array.from({ length: answerButtons.length }, (_, i) => i);
+                incorrectIndices.splice(correctButtonIndex, 1);
+
+                shuffleArray(incorrectIndices);
+                incorrectIndices.forEach((incorrectIndex, i) => {
+                    answerButtons[incorrectIndex].textContent = photoData[i + 1].correctAnswer;
+                });
+            }
+
+            function startRound() {
+                assignAnswers();
+            }
+
+            startRound();
+
+            answerButtons.forEach(button => {
+                button.addEventListener("click", () => {
+                    const selectedAnswer = button.textContent;
+                    if (selectedAnswer === photoData[0].correctAnswer) {
+                        count += 1;
+                        displayNewCounter();
+                        if (count === 4) {
+                            window.location.href = "congratulations_Page.html";
+                        }
+                    } 
+                    else {
+                        removeHeart();
+                    }
+                    startRound();
+                });
+            });
+        </script>
+    </body>
+</html>

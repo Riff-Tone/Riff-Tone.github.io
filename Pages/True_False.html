@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True or False Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .prompt {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .option {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.5s;
+        }
+
+        .correct {
+            background-color: #a3e297 !important;
+        }
+
+        .incorrect {
+            background-color: #f09a9a !important;
+        }
+
+        #counter {
+            position: absolute;
+            top: 2rem;
+            right: 18rem;
+            font-size: 2rem;
+        }
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
+        #button_back:hover {
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+   <a href="../index.html">
+      <button type="button" class="top-left" id="button_back">Quit</button>
+  </a>
+   <div id="counter">0/25</div>
+    <div class="container">
+        <div id="prompt" class="prompt"></div>
+        <div id="options" class="options">
+            <div class="option" onclick="checkAnswer(true)">True</div>
+            <div class="option" onclick="checkAnswer(false)">False</div>
+        </div>
+    </div>
+    <script>
+         const questions = [
+         {
+            prompt: "Groups with the most power in a society use a communication system that supports their perception of the world.",
+            correctAnswer: true
+         },
+         {
+            prompt: "Microaggressions are subtle insults directed toward cultural groups, often automatically or unconsciously. ",
+            correctAnswer: true
+         },
+         {
+            prompt: "Gender is the same as biological sex.",
+            correctAnswer: false
+         },
+         {
+            prompt: "The languages we speak are rooted in issues of power and dominance rather than ethnicity or cultural origin.",
+            correctAnswer: true
+         },
+         {
+            prompt: "The languages that people speak influence their intercultural interactions.",
+            correctAnswer: true
+         },
+         {
+            prompt: "People of different ages, genders, physical abilities, or sexual orientations have relatively equal access to power in the United States.",
+            correctAnswer: false
+         },
+         {
+            prompt: "The critical approach to studying intercultural communication is a research method in which scholars try to interpret the meanings or persuasion used in texts or oral discourses in the contexts in which they occur.",
+            correctAnswer: false
+         },
+         {
+            prompt: "Cultural space influences cultural identity and includes homes, neighborhoods, regions, and nations.",
+            correctAnswer: true
+         },
+         {
+            prompt: "Prejudice is often based on aspects of nonverbal communication.",
+            correctAnswer: true
+         },
+         {
+            prompt: "When a migrant has an interest in maintaining his or her original culture and maintains daily interactions with other cultural groups, that person is engaging in assimilation mode of migrant–host relationship. ",
+            correctAnswer: false
+         },
+         {
+            prompt: "The sociopolitical context affects individual immigration. ",
+            correctAnswer: true
+         },
+         {
+            prompt: "The extent to which migrants want to maintain their own identity, language, and way of life influences how they develop multicultural identities.",
+            correctAnswer: true
+         },
+         {
+            prompt: "Cultural groups are generally depicted accurately in popular culture.",
+            correctAnswer: false
+         },
+         {
+            prompt: "People resist the use of popular culture as a forum when dealing with social issues.",
+            correctAnswer: false
+         },
+         {
+            prompt: "Intercultural interactions in which one or both parties have few negative expectations and no negative stereotypes prior contact probably have less anxiety.",
+            correctAnswer: true
+         },
+         {
+            prompt: "The people in the majority have the most to gain from cross-cultural relationships. ",
+            correctAnswer: false
+         },
+         {
+            prompt: "According to the similarity principle, we tend to be attracted to people who hold attitudes similar to our own. ",
+            correctAnswer: true
+         },
+         {
+            prompt: "Conflict strategies usually relate to how people manage self-image or identity in relationships.",
+            correctAnswer: true
+         },
+         {
+            prompt: "When the cultural divide is too huge, forgiveness can be an effective way to promote intercultural reconciliation.  ",
+            correctAnswer: true
+         },
+         {
+            prompt: "People raised within the same ethnic group will use the same conflict resolution style.",
+            correctAnswer: false
+         },
+         {
+            prompt: "Motivation is the most important dimension of communication competence because if someone is not motivated to communicate, skill level is not important. ",
+            correctAnswer: true
+         },
+         {
+            prompt: "Forming coalitions can be emotionally injuring. ",
+            correctAnswer: true
+         },
+         {
+            prompt: "Conscious competence is the level of intercultural communication competence at which communication goes smoothly but is an unconscious process.",
+            correctAnswer: false
+         },
+         {
+            prompt: "Identities of gender, sexual orientation, race, religion, age, etc., remain relatively constant in all contexts. ",
+            correctAnswer: false
+         },
+         {
+            prompt: "After taking an intercultural communication course, students can reach the level of unconscious competence very quickly.",
+            correctAnswer: false
+         },
+      ];
+
+        const totalQuestions = questions.length;
+        let correctAnswers = 0;
+        let currentQuestionIndex = 0;
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        shuffleArray(questions);
+        
+        function displayQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('prompt').innerText = currentQuestion.prompt;
+            const optionElements = document.querySelectorAll('.option');
+            optionElements.forEach((option, index) => {
+                option.innerText = index === 0 ? 'True' : 'False';
+                option.classList.remove('correct', 'incorrect');
+            });
+        }
+        
+        function checkAnswer(selectedAnswer) {
+            const selectedOption = selectedAnswer ? document.querySelectorAll('.option')[0] : document.querySelectorAll('.option')[1];
+            const isCorrect = selectedAnswer === questions[currentQuestionIndex].correctAnswer;
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+                correctAnswers++;
+            } else {
+                selectedOption.classList.add('incorrect');
+            }
+
+            document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                    alert("Quiz completed!");
+                    currentQuestionIndex = 0;
+                    correctAnswers = 0;
+                    shuffleArray(questions); 
+                    displayQuestion();
+                }
+            }, 800);
+        }
+        
+        displayQuestion();
+    </script>
+</body>
+</html>
