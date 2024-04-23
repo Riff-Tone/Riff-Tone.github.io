@@ -98,61 +98,61 @@
         <div id="result" class="result"></div>
     </div>
     <script>
-        const vocabulary = [
-            "axiology",
-            "ontology",
-            "mixed methods",
-            "qualitative",
-            "whiteness",
-            "quantitative",
-            "epistemology",
-            "intersectionality",
-            "critical",
-            "reflexivity"
-        ];
+      const vocabulary = [
+         "axiology",
+         "ontology",
+         "mixed methods",
+         "qualitative",
+         "whiteness",
+         "quantitative",
+         "epistemology",
+         "intersectionality",
+         "critical",
+         "reflexivity"
+      ];
 
-        const questions = [
-            {
-                prompt: "Scholarship that contextualizes intersecting identities (such as: race, gender, ability, language, education, socioeconomic status, etc.)",
-                correctAnswer: "intersectionality"
-            },
-            {
-                prompt: "A method in which the researcher and researched are one in the same",
-                correctAnswer: "qualitative"
-            },
-            {
-                prompt: "The study of values “values [or valuableness] guides research”",
-                correctAnswer: "axiology"
-            },
-            {
-                prompt: "The branch of philosophy that deals with the nature of being ",
-                correctAnswer: "ontology"
-            },
-            {
-                prompt: "A discursive act/thought/mentality of elitism, superiority, and/or dominance either consciously or unconsciously",
-                correctAnswer: "whiteness"
-            },
-            {
-                prompt: "A method in which a tool is used to collect data (surveys, questionnaires, experiments, etc.)",
-                correctAnswer: "quantitative"
-            },
-            {
-                prompt: "The study of knowledge “how people know what they claim to know”",
-                correctAnswer: "epistemology"
-            },
-            {
-                prompt: "A method in which the researcher uses a tool to quantify information, then furthers the study through in-depth understandings",
-                correctAnswer: "mixed methods"
-            },
-            {
-                prompt: "A paradigm (or viewpoint) of how a researcher approaches the study of communication",
-                correctAnswer: "critical"
-            },
-            {
-                prompt: "The emotional labor to apply a persons positionality to their lived experiences/realities",
-                correctAnswer: "reflexivity"
-            }
-        ];
+      const questions = [
+         {
+            prompt: "Scholarship that contextualizes intersecting identities (such as: race, gender, ability, language, education, socioeconomic status, etc.)",
+            correctAnswer: "intersectionality"
+         },
+         {
+            prompt: "A method in which the researcher and researched are one in the same",
+            correctAnswer: "qualitative"
+         },
+         {
+            prompt: "The study of values “values [or valuableness] guides research”",
+            correctAnswer: "axiology"
+         },
+         {
+            prompt: "The branch of philosophy that deals with the nature of being ",
+            correctAnswer: "ontology"
+         },
+         {
+            prompt: "A discursive act/thought/mentality of elitism, superiority, and/or dominance either consciously or unconsciously",
+            correctAnswer: "whiteness"
+         },
+         {
+            prompt: "A method in which a tool is used to collect data (surveys, questionnaires, experiments, etc.)",
+            correctAnswer: "quantitative"
+         },
+         {
+            prompt: "The study of knowledge “how people know what they claim to know”",
+            correctAnswer: "epistemology"
+         },
+         {
+            prompt: "A method in which the researcher uses a tool to quantify information, then furthers the study through in-depth understandings",
+            correctAnswer: "mixed methods"
+         },
+         {
+            prompt: "A paradigm (or viewpoint) of how a researcher approaches the study of communication",
+            correctAnswer: "critical"
+         },
+         {
+            prompt: "The emotional labor to apply a persons positionality to their lived experiences/realities",
+            correctAnswer: "reflexivity"
+         }
+      ];
 
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
@@ -187,18 +187,18 @@
                 const optionElement = document.createElement('div');
                 optionElement.classList.add('option');
                 optionElement.textContent = option;
-                optionElement.onclick = () => checkAnswer(option === currentQuestion.correctAnswer);
+                optionElement.onclick = () => checkAnswer(option === currentQuestion.correctAnswer, optionElement);
                 optionsElement.appendChild(optionElement);
             });
         }
 
-        function checkAnswer(isCorrect) {
+        function checkAnswer(isCorrect, optionElement) {
             const resultElement = document.getElementById('result');
             if (isCorrect) {
-                resultElement.innerText = "Correct!";
+                optionElement.classList.add('correct');
                 correctAnswers++;
             } else {
-                resultElement.innerText = "Incorrect!";
+                optionElement.classList.add('incorrect');
             }
             document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
             setTimeout(() => {
