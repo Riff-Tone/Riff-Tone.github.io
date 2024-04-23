@@ -167,14 +167,14 @@
         }
 
         function generateOptions(correctAnswer) {
-            const options = [correctAnswer]; // The correct answer is added as the first option
+            const options = [correctAnswer];
             while (options.length < 4) {
                 const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
                 if (!options.includes(randomWord)) {
-                    options.push(randomWord); // Other random words are added as options
+                    options.push(randomWord);
                 }
             }
-            return shuffleArray(options); // The options are shuffled
+            return shuffleArray(options);
         }
 
         function displayQuestion() {
