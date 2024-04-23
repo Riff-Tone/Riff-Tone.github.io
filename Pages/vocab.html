@@ -206,7 +206,7 @@
                 if (currentQuestionIndex < questions.length) {
                     displayQuestion();
                 } else {
-                    alert("Quiz completed!");
+                  alert("You Got\n" + correctAnswers + " / " + totalQuestions);
                     currentQuestionIndex = 0;
                     correctAnswers = 0;
                     shuffleArray(questions);
