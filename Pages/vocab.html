@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>True or False Quiz</title>
+    <title>Vocabulary Quiz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -29,16 +29,29 @@
         
         .options {
             display: flex;
-            justify-content: space-around;
+            flex-wrap: wrap;
         }
         
         .option {
-            padding: 10px 20px;
+            width: 100%; 
+            padding: 10px;
             margin: 5px;
             background-color: #e0e0e0;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.5s;
+            overflow-wrap: break-word; 
+        }
+        
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #counter {
+            position: absolute;
+            top: 2rem;
+            right: 18rem;
+            font-size: 2rem;
         }
 
         .correct {
@@ -49,17 +62,12 @@
             background-color: #f09a9a !important;
         }
 
-        #counter {
-            position: absolute;
-            top: 2rem;
-            right: 18rem;
-            font-size: 2rem;
-        }
         .top-left {
             position: absolute;
             top: 10px;
             left: 10px;
         }
+
         #button_back {
             background-color: #6fa8dcff;
             color: black;
@@ -68,84 +76,88 @@
             font-size: 15px;
             transition-duration: 0.4s;
         }
+
         #button_back:hover {
             background-color: purple;
         }
     </style>
 </head>
 <body>
-   <a href="../index.html">
-      <button type="button" class="top-left" id="button_back">Quit</button>
-  </a>
-   <div id="counter">0/25</div>
+    <a href="../index.html">
+        <button type="button" class="top-left" id="button_back">Quit</button>
+    </a>
+    <div id="counter">0/9</div>
     <div class="container">
         <div id="prompt" class="prompt"></div>
         <div id="options" class="options">
-            <div class="option" onclick="checkAnswer(true)">True</div>
-            <div class="option" onclick="checkAnswer(false)">False</div>
+            <div class="option" onclick="checkAnswer(0)"></div>
+            <div class="option" onclick="checkAnswer(1)"></div>
+            <div class="option" onclick="checkAnswer(2)"></div>
+            <div class="option" onclick="checkAnswer(3)"></div>
         </div>
+        <div id="result" class="result"></div>
     </div>
     <script>
-      const vocabulary = [
-         "axiology",
-         "ontology",
-         "mixed methods",
-         "qualitative",
-         "whiteness",
-         "quantitative",
-         "epistemology",
-         "intersectionality",
-         "critical",
-         "reflexivity"
-      ];
+        const vocabulary = [
+            "axiology",
+            "ontology",
+            "mixed methods",
+            "qualitative",
+            "whiteness",
+            "quantitative",
+            "epistemology",
+            "intersectionality",
+            "critical",
+            "reflexivity"
+        ];
 
-      const questions = [
-      {
-         prompt: "Scholarship that contextualizes intersecting identities (such as: race, gender, ability, language, education, socioeconomic status, etc.)",
-         correctAnswer: "intersectionality"
-      },
-      {
-         prompt: "A method in which the researcher and researched are one in the same",
-         correctAnswer: "qualitative"
-      },
-      {
-         prompt: "The study of values “values [or valuableness] guides research”",
-         correctAnswer: "axiology"
-      },
-      {
-         prompt: "The branch of philosophy that deals with the nature of being ",
-         correctAnswer: "ontology"
-      },
-      {
-         prompt: "A discursive act/thought/mentality of elitism, superiority, and/or dominance either consciously or unconsciously",
-         correctAnswer: "whiteness"
-      },
-      {
-         prompt: "A method in which a tool is used to collect data (surveys, questionnaires, experiments, etc.)",
-         correctAnswer: "quantitative"
-      },
-      {
-         prompt: "The study of knowledge “how people know what they claim to know”",
-         correctAnswer: "epistemology"
-      },
-      {
-         prompt: "A method in which the researcher uses a tool to quantify information, then furthers the study through in-depth understandings",
-         correctAnswer: "mixed methods"
-      },
-      {
-         prompt: "A paradigm (or viewpoint) of how a researcher approaches the study of communication",
-         correctAnswer: "critical"
-      },
-      {
-         prompt: "The emotional labor to apply a persons positionality to their lived experiences/realities",
-         correctAnswer: "reflexivity"
-      }
-      ];
-
-        const totalQuestions = questions.length;
-        let correctAnswers = 0;
-        let currentQuestionIndex = 0;
+        const questions = [
+            {
+                prompt: "Scholarship that contextualizes intersecting identities (such as: race, gender, ability, language, education, socioeconomic status, etc.)",
+                correctAnswer: "intersectionality"
+            },
+            {
+                prompt: "A method in which the researcher and researched are one in the same",
+                correctAnswer: "qualitative"
+            },
+            {
+                prompt: "The study of values “values [or valuableness] guides research”",
+                correctAnswer: "axiology"
+            },
+            {
+                prompt: "The branch of philosophy that deals with the nature of being ",
+                correctAnswer: "ontology"
+            },
+            {
+                prompt: "A discursive act/thought/mentality of elitism, superiority, and/or dominance either consciously or unconsciously",
+                correctAnswer: "whiteness"
+            },
+            {
+                prompt: "A method in which a tool is used to collect data (surveys, questionnaires, experiments, etc.)",
+                correctAnswer: "quantitative"
+            },
+            {
+                prompt: "The study of knowledge “how people know what they claim to know”",
+                correctAnswer: "epistemology"
+            },
+            {
+                prompt: "A method in which the researcher uses a tool to quantify information, then furthers the study through in-depth understandings",
+                correctAnswer: "mixed methods"
+            },
+            {
+                prompt: "A paradigm (or viewpoint) of how a researcher approaches the study of communication",
+                correctAnswer: "critical"
+            },
+            {
+                prompt: "The emotional labor to apply a persons positionality to their lived experiences/realities",
+                correctAnswer: "reflexivity"
+            }
+        ];
         
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        const totalQuestions = questions.length;
+
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -153,31 +165,42 @@
             }
             return array;
         }
-        
-        shuffleArray(questions);
+
+        function generateOptions(correctAnswer) {
+            const options = [correctAnswer]; 
+            while (options.length < 4) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord); 
+                }
+            }
+            return shuffleArray(options); 
+        }
         
         function displayQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
             document.getElementById('prompt').innerText = currentQuestion.prompt;
-            const optionElements = document.querySelectorAll('.option');
-            optionElements.forEach((option, index) => {
-                option.innerText = index === 0 ? 'True' : 'False';
-                option.classList.remove('correct', 'incorrect');
+            const optionsElement = document.getElementById('options');
+            const options = generateOptions(currentQuestion.correctAnswer);
+            optionsElement.innerHTML = '';
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.onclick = () => checkAnswer(option === currentQuestion.correctAnswer);
+                optionsElement.appendChild(optionElement);
             });
         }
         
-        function checkAnswer(selectedAnswer) {
-            const selectedOption = selectedAnswer ? document.querySelectorAll('.option')[0] : document.querySelectorAll('.option')[1];
-            const isCorrect = selectedAnswer === questions[currentQuestionIndex].correctAnswer;
+        function checkAnswer(isCorrect) {
+            const resultElement = document.getElementById('result');
             if (isCorrect) {
-                selectedOption.classList.add('correct');
+                resultElement.innerText = "Correct!";
                 correctAnswers++;
             } else {
-                selectedOption.classList.add('incorrect');
+                resultElement.innerText = "Incorrect!";
             }
-
             document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
-
             setTimeout(() => {
                 currentQuestionIndex++;
                 if (currentQuestionIndex < questions.length) {
@@ -186,7 +209,7 @@
                     alert("Quiz completed!");
                     currentQuestionIndex = 0;
                     correctAnswers = 0;
-                    shuffleArray(questions); 
+                    shuffleArray(questions);
                     displayQuestion();
                 }
             }, 800);
