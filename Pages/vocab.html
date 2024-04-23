@@ -11,7 +11,7 @@
             padding: 0;
             background-color: #f0f0f0;
         }
-        
+
         .container {
             max-width: 600px;
             margin: 50px auto;
@@ -21,17 +21,17 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
-        
+
         .prompt {
             font-size: 20px;
             margin-bottom: 20px;
         }
-        
+
         .options {
             display: flex;
             flex-wrap: wrap;
         }
-        
+
         .option {
             width: 100%; 
             padding: 10px;
@@ -41,7 +41,7 @@
             cursor: pointer;
             overflow-wrap: break-word; 
         }
-        
+
         .result {
             margin-top: 20px;
             font-weight: bold;
@@ -153,7 +153,7 @@
                 correctAnswer: "reflexivity"
             }
         ];
-        
+
         let currentQuestionIndex = 0;
         let correctAnswers = 0;
         const totalQuestions = questions.length;
@@ -167,16 +167,16 @@
         }
 
         function generateOptions(correctAnswer) {
-            const options = [correctAnswer]; 
+            const options = [correctAnswer]; // The correct answer is added as the first option
             while (options.length < 4) {
                 const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
                 if (!options.includes(randomWord)) {
-                    options.push(randomWord); 
+                    options.push(randomWord); // Other random words are added as options
                 }
             }
-            return shuffleArray(options); 
+            return shuffleArray(options); // The options are shuffled
         }
-        
+
         function displayQuestion() {
             const currentQuestion = questions[currentQuestionIndex];
             document.getElementById('prompt').innerText = currentQuestion.prompt;
@@ -191,33 +191,30 @@
                 optionsElement.appendChild(optionElement);
             });
         }
-        
+
         function checkAnswer(isCorrect) {
             const resultElement = document.getElementById('result');
-            const selectedOption = document.querySelectorAll('.option')[currentQuestionIndex];
             if (isCorrect) {
-               resultElement.innerText = "Correct!";
-               selectedOption.classList.add('correct');
-               correctAnswers++;
+                resultElement.innerText = "Correct!";
+                correctAnswers++;
             } else {
-               resultElement.innerText = "Incorrect!";
-               selectedOption.classList.add('incorrect');
+                resultElement.innerText = "Incorrect!";
             }
             document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
             setTimeout(() => {
-               currentQuestionIndex++;
-               if (currentQuestionIndex < questions.length) {
-                     displayQuestion();
-               } else {
-                     alert("Quiz completed!");
-                     currentQuestionIndex = 0;
-                     correctAnswers = 0;
-                     shuffleArray(questions);
-                     displayQuestion();
-               }
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                    alert("Quiz completed!");
+                    currentQuestionIndex = 0;
+                    correctAnswers = 0;
+                    shuffleArray(questions);
+                    displayQuestion();
+                }
             }, 800);
-         }
-        
+        }
+
         displayQuestion();
     </script>
 </body>
