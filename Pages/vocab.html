@@ -196,9 +196,11 @@
             const resultElement = document.getElementById('result');
             if (isCorrect) {
                 resultElement.innerText = "Correct!";
+                selectedOption.classList.add('correct');
                 correctAnswers++;
             } else {
                 resultElement.innerText = "Incorrect!";
+                selectedOption.classList.add('incorrect');
             }
             document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
             setTimeout(() => {
