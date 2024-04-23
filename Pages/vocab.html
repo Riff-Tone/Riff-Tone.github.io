@@ -194,28 +194,29 @@
         
         function checkAnswer(isCorrect) {
             const resultElement = document.getElementById('result');
+            const selectedOption = document.querySelectorAll('.option')[currentQuestionIndex];
             if (isCorrect) {
-                resultElement.innerText = "Correct!";
-                selectedOption.classList.add('correct');
-                correctAnswers++;
+               resultElement.innerText = "Correct!";
+               selectedOption.classList.add('correct');
+               correctAnswers++;
             } else {
-                resultElement.innerText = "Incorrect!";
-                selectedOption.classList.add('incorrect');
+               resultElement.innerText = "Incorrect!";
+               selectedOption.classList.add('incorrect');
             }
             document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
             setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) {
-                    displayQuestion();
-                } else {
-                    alert("Quiz completed!");
-                    currentQuestionIndex = 0;
-                    correctAnswers = 0;
-                    shuffleArray(questions);
-                    displayQuestion();
-                }
+               currentQuestionIndex++;
+               if (currentQuestionIndex < questions.length) {
+                     displayQuestion();
+               } else {
+                     alert("Quiz completed!");
+                     currentQuestionIndex = 0;
+                     correctAnswers = 0;
+                     shuffleArray(questions);
+                     displayQuestion();
+               }
             }, 800);
-        }
+         }
         
         displayQuestion();
     </script>
