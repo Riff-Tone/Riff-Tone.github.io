@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocabulary Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .prompt {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .option {
+            width: 100%; 
+            padding: 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow-wrap: break-word; 
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #counter {
+            position: absolute;
+            top: 2rem;
+            right: 18rem;
+            font-size: 2rem;
+        }
+
+        .correct {
+            background-color: #a3e297 !important;
+        }
+
+        .incorrect {
+            background-color: #f09a9a !important;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
+
+        #button_back:hover {
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html">
+        <button type="button" class="top-left" id="button_back">Quit</button>
+    </a>
+    <div id="counter">0/10</div>
+    <div class="container">
+        <div id="prompt" class="prompt"></div>
+        <div id="options" class="options">
+            <div class="option" onclick="checkAnswer(0)"></div>
+            <div class="option" onclick="checkAnswer(1)"></div>
+            <div class="option" onclick="checkAnswer(2)"></div>
+            <div class="option" onclick="checkAnswer(3)"></div>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+      const vocabulary = [
+         "axiology",
+         "ontology",
+         "mixed methods",
+         "qualitative",
+         "whiteness",
+         "quantitative",
+         "epistemology",
+         "intersectionality",
+         "critical",
+         "reflexivity"
+      ];
+
+      const questions = [
+         {
+            prompt: "Scholarship that contextualizes intersecting identities (such as: race, gender, ability, language, education, socioeconomic status, etc.)",
+            correctAnswer: "intersectionality"
+         },
+         {
+            prompt: "A method in which the researcher and researched are one in the same",
+            correctAnswer: "qualitative"
+         },
+         {
+            prompt: "The study of values “values [or valuableness] guides research”",
+            correctAnswer: "axiology"
+         },
+         {
+            prompt: "The branch of philosophy that deals with the nature of being ",
+            correctAnswer: "ontology"
+         },
+         {
+            prompt: "A discursive act/thought/mentality of elitism, superiority, and/or dominance either consciously or unconsciously",
+            correctAnswer: "whiteness"
+         },
+         {
+            prompt: "A method in which a tool is used to collect data (surveys, questionnaires, experiments, etc.)",
+            correctAnswer: "quantitative"
+         },
+         {
+            prompt: "The study of knowledge “how people know what they claim to know”",
+            correctAnswer: "epistemology"
+         },
+         {
+            prompt: "A method in which the researcher uses a tool to quantify information, then furthers the study through in-depth understandings",
+            correctAnswer: "mixed methods"
+         },
+         {
+            prompt: "A paradigm (or viewpoint) of how a researcher approaches the study of communication",
+            correctAnswer: "critical"
+         },
+         {
+            prompt: "The emotional labor to apply a persons positionality to their lived experiences/realities",
+            correctAnswer: "reflexivity"
+         }
+      ];
+
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        const totalQuestions = questions.length;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function generateOptions(correctAnswer) {
+            const options = [correctAnswer];
+            while (options.length < 4) {
+                const randomWord = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+                if (!options.includes(randomWord)) {
+                    options.push(randomWord);
+                }
+            }
+            return shuffleArray(options);
+        }
+
+        function displayQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('prompt').innerText = currentQuestion.prompt;
+            const optionsElement = document.getElementById('options');
+            const options = generateOptions(currentQuestion.correctAnswer);
+            optionsElement.innerHTML = '';
+            options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.onclick = () => checkAnswer(option === currentQuestion.correctAnswer, optionElement);
+                optionsElement.appendChild(optionElement);
+            });
+        }
+         //fucking update github, come on!
+        function checkAnswer(isCorrect, optionElement) {
+            const resultElement = document.getElementById('result');
+            if (isCorrect) {
+                optionElement.classList.add('correct');
+                correctAnswers++;
+            } else {
+                optionElement.classList.add('incorrect');
+            }
+            document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                  alert("You Got\n" + correctAnswers + " / " + totalQuestions);
+                    currentQuestionIndex = 0;
+                    correctAnswers = 0;
+                    shuffleArray(questions);
+                    displayQuestion();
+                }
+            }, 800);
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>

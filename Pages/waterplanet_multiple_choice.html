@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Choice Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .prompt {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .option {
+            width: 100%; 
+            padding: 10px;
+            margin: 5px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow-wrap: break-word; 
+        }
+        
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #counter {
+            position: absolute;
+            top: 2rem;
+            right: 18rem;
+            font-size: 2rem;
+        }
+
+        .correct {
+            background-color: #a3e297 !important;
+        }
+
+        .incorrect {
+            background-color: #f09a9a !important;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
+
+        #button_back:hover {
+            background-color: purple;
+        }
+    </style>
+</head>
+<body>
+    <a href="../index.html">
+        <button type="button" class="top-left" id="button_back">Quit</button>
+    </a>
+    <div id="counter">0/25</div>
+    <div class="container">
+        <div id="prompt" class="prompt"></div>
+        <div id="options" class="options">
+            <div class="option" onclick="checkAnswer(0)"></div>
+            <div class="option" onclick="checkAnswer(1)"></div>
+            <div class="option" onclick="checkAnswer(2)"></div>
+            <div class="option" onclick="checkAnswer(3)"></div>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const questions = [
+        {
+            prompt: "This law suggests that the number of transistors on a microchip doubles every two years:",
+            options: [
+                "Dalton's Law",
+                "Moore's Law",
+                "Murphy's Law",
+                "Charles' Law"
+            ],
+            correctAnswer: "Moore's Law"
+        },
+        {
+            prompt: "What are the components of a computer?",
+            options: [
+                "CPU",
+                "Monitor – example of Output",
+                "Keyboard – example of Input",
+                "Mouse – example of Input",
+                "RAM",
+                "All of the above"
+            ],
+            correctAnswer: "All of the above"
+        },
+        {
+            prompt: "Which of the following result in an increase in performance?",
+            options: [
+                "Increase Clock period",
+                "Increase Clock Frequency",
+                "Decrease CPI",
+                "Increase execution time",
+                "Decrease number of instructions",
+                "b,c and e"
+            ],
+            correctAnswer: "b,c and e"
+        },
+        {
+            prompt: "Which of the following result in a decrease in performance?",
+            options: [
+                "Increase execution time",
+                "Increase Clock Period",
+                "Decrease CPI",
+                "Decrease Clock Frequency",
+                "Decrease number of instructions",
+                "a,b,and d"
+            ],
+            correctAnswer: "a,b,and d"
+        },
+
+        ];
+        
+        let currentQuestionIndex = 0;
+        let correctAnswers = 0;
+        const totalQuestions = questions.length;
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        shuffleArray(questions);
+        
+        function displayQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            document.getElementById('prompt').innerText = currentQuestion.prompt;
+            const optionElements = document.querySelectorAll('.option');
+            const shuffledOptions = shuffleArray(currentQuestion.options.slice());
+            shuffledOptions.forEach((option, index) => {
+                optionElements[index].innerText = option;
+                optionElements[index].classList.remove('correct', 'incorrect');
+            });
+        }
+        
+        function checkAnswer(selectedIndex) {
+            const selectedOption = document.querySelectorAll('.option')[selectedIndex];
+            if (selectedOption.innerText === questions[currentQuestionIndex].correctAnswer) {
+                selectedOption.classList.add('correct');
+                correctAnswers++;
+            } else {
+                selectedOption.classList.add('incorrect');
+            }
+            
+            document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
+
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion();
+                } else {
+                    alert("You Got\n" + correctAnswers + " / " + totalQuestions);
+                    currentQuestionIndex = 0;
+                    correctAnswers = 0;
+                    shuffleArray(questions);
+                    displayQuestion();
+                }
+            }, 800);
+        }
+        
+        displayQuestion();
+    </script>
+</body>
+</html>

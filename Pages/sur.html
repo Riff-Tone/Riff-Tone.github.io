@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Multiple Selection Quiz</title>
+  <style>
+    /* Basic page styling */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 5px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    .question {
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .question:last-child {
+      border-bottom: none;
+    }
+    .question p {
+      font-weight: bold;
+    }
+    .answers div {
+      margin-bottom: 5px;
+    }
+    .submit-btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+    }
+    .submit-btn:hover {
+      background-color: #45a049;
+    }
+    #result p {
+      font-size: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Quiz</h1>
+    <form id="quiz-form">
+      <!-- Questions will be inserted here -->
+      <div id="quiz-questions"></div>
+      <button type="submit" class="submit-btn">Submit Answers</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    // Array of question objects.
+    // Each question has a prompt and a list of answers.
+    // For each answer, the property "correct" marks if that answer is right.
+    const questions = [
+      {
+        id: 1,
+        prompt: "Which of the following numbers are prime?",
+        answers: [
+          { text: "2", correct: true },
+          { text: "3", correct: true },
+          { text: "4", correct: false },
+          { text: "5", correct: true }
+        ]
+      },
+      {
+        id: 2,
+        prompt: "Which of the following animals can fly?",
+        answers: [
+          { text: "Eagle", correct: true },
+          { text: "Penguin", correct: false },
+          { text: "Bat", correct: true },
+          { text: "Ostrich", correct: false }
+        ]
+      },
+      {
+        id: 3,
+        prompt: "Select the colors that appear in a typical rainbow:",
+        answers: [
+          { text: "Red", correct: true },
+          { text: "Green", correct: true },
+          { text: "Black", correct: false },
+          { text: "Blue", correct: true }
+        ]
+      }
+    ];
+
+    // Shuffle function (Fisher–Yates algorithm) to randomize the order of the questions.
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+
+    // Shuffle the questions array so that the question prompts appear in random order.
+    shuffle(questions);
+
+    // Reference to the container where questions will be injected
+    const quizContainer = document.getElementById("quiz-questions");
+
+    // For each question, build the HTML and insert it into the page.
+    questions.forEach((question, index) => {
+      // Create a wrapper for each question.
+      const questionDiv = document.createElement("div");
+      questionDiv.classList.add("question");
+
+      // Create the question prompt.
+      const promptP = document.createElement("p");
+      promptP.textContent = `${index + 1}. ${question.prompt}`;
+      questionDiv.appendChild(promptP);
+
+      // Create a container for the answers.
+      const answersDiv = document.createElement("div");
+      answersDiv.classList.add("answers");
+
+      // For each answer option, create a checkbox and a label.
+      question.answers.forEach((answer, answerIndex) => {
+        const answerWrapper = document.createElement("div");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        // Create a unique id for each checkbox
+        checkbox.id = `q${question.id}_a${answerIndex}`;
+        // All checkboxes for a given question share the same name
+        checkbox.name = `question_${question.id}`;
+        checkbox.value = answer.text;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = answer.text;
+
+        answerWrapper.appendChild(checkbox);
+        answerWrapper.appendChild(label);
+        answersDiv.appendChild(answerWrapper);
+      });
+
+      // Append the answers to the question container.
+      questionDiv.appendChild(answersDiv);
+      // Append the question to the main quiz container.
+      quizContainer.appendChild(questionDiv);
+    });
+
+    // Optional: When the form is submitted, check the answers and display results.
+    document.getElementById("quiz-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the form from submitting normally
+
+      let score = 0;
+      let total = questions.length;
+      let resultsHTML = "";
+
+      // Check each question
+      questions.forEach((question) => {
+        // Get all checked boxes for the current question.
+        const checkboxes = document.querySelectorAll(`input[name="question_${question.id}"]:checked`);
+        // Collect the text values of the selected answers.
+        const selectedAnswers = Array.from(checkboxes).map(cb => cb.value);
+        // Get the correct answers for this question.
+        const correctAnswers = question.answers.filter(a => a.correct).map(a => a.text);
+
+        // Sort the arrays to compare them easily.
+        selectedAnswers.sort();
+        correctAnswers.sort();
+
+        // Compare the arrays (convert to JSON strings for a simple comparison).
+        const isCorrect = JSON.stringify(selectedAnswers) === JSON.stringify(correctAnswers);
+
+        if (isCorrect) {
+          score++;
+          resultsHTML += `<p>Question ${question.id}: Correct!</p>`;
+        } else {
+          resultsHTML += `<p>Question ${question.id}: Incorrect. Correct answer(s): ${correctAnswers.join(", ")}</p>`;
+        }
+      });
+
+      resultsHTML += `<p><strong>Your score: ${score} out of ${total}</strong></p>`;
+      document.getElementById("result").innerHTML = resultsHTML;
+    });
+  </script>
+</body>
+</html>
