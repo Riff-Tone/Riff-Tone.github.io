@@ -1,274 +1,205 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Choice Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-        }
-        
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        
-        .prompt {
-            font-size: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .options {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        
-        .option {
-            width: 100%; 
-            padding: 10px;
-            margin: 5px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            cursor: pointer;
-            overflow-wrap: break-word; 
-        }
-        
-        .result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
-
-        #counter {
-            position: absolute;
-            top: 2rem;
-            right: 18rem;
-            font-size: 2rem;
-        }
-
-        .correct {
-            background-color: #a3e297 !important;
-        }
-
-        .incorrect {
-            background-color: #f09a9a !important;
-        }
-
-        .top-left {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        #button_back {
-            background-color: #6fa8dcff;
-            color: black;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 15px;
-            transition-duration: 0.4s;
-        }
-
-        #button_back:hover {
-            background-color: purple;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Single Question Quiz</title>
+  <style>
+    /* Basic styling for the page */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    /* Score counter at top right */
+    #score-counter {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #4CAF50;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+    /* Main quiz container styling */
+    .quiz-container {
+      max-width: 600px;
+      margin: 100px auto 0;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .quiz-container h2 {
+      margin-top: 0;
+    }
+    .answers div {
+      margin-bottom: 10px;
+    }
+    /* Submit button styling */
+    #submit-btn {
+      margin-top: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #submit-btn:hover {
+      background: #45a049;
+    }
+  </style>
 </head>
 <body>
-    <a href="../index.html">
-        <button type="button" class="top-left" id="button_back">Quit</button>
-    </a>
-    <div id="counter">0/25</div>
-    <div class="container">
-        <div id="prompt" class="prompt"></div>
-        <div id="options" class="options">
-            <div class="option" onclick="checkAnswer(0)"></div>
-            <div class="option" onclick="checkAnswer(1)"></div>
-            <div class="option" onclick="checkAnswer(2)"></div>
-            <div class="option" onclick="checkAnswer(3)"></div>
-        </div>
-        <div id="result" class="result"></div>
-    </div>
-    <script>
-        const questions = [
-            {
-                prompt: "Earth’s global water budget is a balance of all the inputs and outputs of the hydrologic cycle. The conservation of mass in the context of the global water budget means that:",
-                options: ["Spatial and temporal variability of water fluxes (evaporation, precipitation) can create local imbalances over seasons or decades, but the global water budget stays balanced.",
-                            "Global mean annual evaporation must exactly balance global mean annual precipitation if the water content in the atmosphere is maintained", 
-                            "There is generally a surplus of evaporation over the oceans that brings a surplus of rainfall over land.", 
-                            "All answers are correct."],
-                correctAnswer: "All answers are correct."
-            },
-            {
-                prompt: "What is Potential Evaporation?",
-                options: [
-                    "The evaporation expected when water supply is unlimited",
-                    "Evaporation that will happen during a defined time period, but hasnt happened yet",
-                    "Evaporation from ice (solid to vapor phase transition, no liquid involved)",
-                    "Computed evaporation in climate models rather than actual evaporation"
-                ],
-                correctAnswer: "The evaporation expected when water supply is unlimited"
-            },
-            {
-                prompt: "The North American Regional Reanalysis (NARR) is:",
-                options: [
-                    "a reanalysis of data analyzed incorrectly before we understood climate change.",
-                    "a hybrid of model predictions and observations.",
-                    "just a webtool for internet inquiries.",
-                    "all of the above"
-                ],
-                correctAnswer: "a hybrid of model predictions and observations."
-            },
-            {
-                prompt: "Evaporation rates are higher over the oceans than over land because:",
-                options: [
-                    "The high salt content in ocean water enhances evaporation because it reduces the latent heat of vaporization.",
-                    "Terrestrial evaporation (on land) is at least partially water limited.",
-                    "The atmosphere over the oceans is generally less cloudy.",
-                    "All of the above"
-                ],
-                correctAnswer: "Terrestrial evaporation (on land) is at least partially water limited."
-            },
-            {
-                prompt: "In this plot of Annual Evapotranspiration vs. Annual Temperature, why is Evapotranspiration high in the southeastern United States?",
-                options: [
-                    "Temperature and thus Potential Evapotranspiration is high",
-                    "The high humidity increases Potential Evapotranspiration",
-                    "Precipitation is high here",
-                    "all of the above",
-                    "Only a and c"
-                ],
-                correctAnswer: "Only a and c"
-            },
-            {
-                prompt: "What does the Stefan-Boltzmann equation (I = σT⁴) tell us?",
-                options: [
-                    "Planetary bodies must conserve energy",
-                    "The intensity of radiation from a black body increases very rapidly with temperature",
-                    "The intensity of radiation from a black body decreases with temperature, but very slowly",
-                    "The wavelength of radiant energy depends sensitively on temperature"
-                ],
-                correctAnswer: "The intensity of radiation from a black body increases very rapidly with temperature"
-            },
-            {
-                prompt: "Why does the distance from the sun to a planet affect planetary temperature and thus habitability?",
-                options: [
-                    "Because more distant planets tend to be composed more of ice like comets",
-                    "Because the intensity of solar radiation declines with the distance from the sun squared as the light spreads out in all directions",
-                    "Because the speed of a planets orbit increases with distance from the sun (a lot farther to go in one year)",
-                    "The radiant energy leaving the sun decreases with distance it gradually slows and thus loses energy along the way"
-                ],
-                correctAnswer: "Because the intensity of solar radiation declines with the distance from the sun squared as the light spreads out in all directions"
-            },
-            {
-                prompt: "Is a Cloudy Day at the same time of year warmer or cooler than a Sunny Day?",
-                options: [
-                    "warmer",
-                    "the same",
-                    "cooler"
-                ],
-                correctAnswer: "cooler"
-            },
-            {
-                prompt: "Is a Cloudy Night (or early morning) following a day with a given temperature warmer or cooler than a Clear Night?",
-                options: [
-                    "warmer",
-                    "the same",
-                    "cooler"
-                ],
-                correctAnswer: "warmer"
-            },
-            {
-                prompt: "Why is Wien’s Law (λ_max = 2900/T) so important to Earth’s temperature – specifically, why is Wien’s law critical to the presence of liquid water on the Earth’s surface?",
-                options: [
-                    "Wien’s law tells us that planetary bodies must conserve energy",
-                    "Wien’s law is the key to the greenhouse gas effect, which warms the planet enough to maintain liquid water",
-                    "Wien’s law tells us how distance from the sun influences planetary temperature",
-                    "Wien’s law explains why ozone absorbs ultraviolet light"
-                ],
-                correctAnswer: "Wien’s law is the key to the greenhouse gas effect, which warms the planet enough to maintain liquid water"
-            },
-            {
-                prompt: "Why does mean annual temperature decrease toward the poles?",
-                options: [
-                    "Cold arctic (or antarctic) winds keep it chilly even in summer",
-                    "Sunlight comes in at a low angle near the poles, spreading its energy over a larger area",
-                    "Cloud cover (averaged over a year) increases as you go north (just picture Seattle)",
-                    "Ocean currents carry heat away from the poles toward the equator"
-                ],
-                correctAnswer: "Sunlight comes in at a low angle near the poles, spreading its energy over a larger area"
-            },
-            {
-                prompt: "Why is rainfall more concentrated near the equator – at the inter-tropical convergence zone (ITCZ) – than is the water content of the atmosphere (the amount of 'precipitable water')?",
-                options: [
-                    "Because evaporation is concentrated in a narrow band at the equator (or ITCZ)",
-                    "Because air descends along the ITCZ, bringing moisture down and causing precipitation",
-                    "Because surface winds sweep toward the equator and rise along ITCZ, causing precipitation as the air cools",
-                    "Because the Coriolis force creates easterly (from the east) surface winds in the tropics"
-                ],
-                correctAnswer: "Because surface winds sweep toward the equator and rise along ITCZ, causing precipitation as the air cools"
-            }
-        ];
-        
-        let currentQuestionIndex = 0;
-        let correctAnswers = 0;
-        const totalQuestions = questions.length;
+  <!-- Score Counter -->
+  <div id="score-counter">Score: 0</div>
 
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
+  <!-- Quiz container that holds the question box -->
+  <div class="quiz-container">
+    <form id="quiz-form">
+      <div id="question-box">
+        <!-- Question prompt and answers will be loaded here dynamically -->
+      </div>
+      <button type="submit" id="submit-btn">Submit Answer</button>
+    </form>
+  </div>
 
-        shuffleArray(questions);
-        
-        function displayQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
-            document.getElementById('prompt').innerText = currentQuestion.prompt;
-            const optionElements = document.querySelectorAll('.option');
-            const shuffledOptions = shuffleArray(currentQuestion.options.slice());
-            shuffledOptions.forEach((option, index) => {
-                optionElements[index].innerText = option;
-                optionElements[index].classList.remove('correct', 'incorrect');
-            });
-        }
-        
-        function checkAnswer(selectedIndex) {
-            const selectedOption = document.querySelectorAll('.option')[selectedIndex];
-            if (selectedOption.innerText === questions[currentQuestionIndex].correctAnswer) {
-                selectedOption.classList.add('correct');
-                correctAnswers++;
-            } else {
-                selectedOption.classList.add('incorrect');
-            }
-            
-            document.getElementById('counter').innerText = `${correctAnswers}/${totalQuestions}`;
+  <script>
+    // Array of question objects.
+    // Each question has a prompt and an array of answers.
+    // For each answer, the property "correct" determines if that answer is right.
+    const questions = [
+      {
+        id: 1,
+        prompt: "Which of the following numbers are prime?",
+        answers: [
+          { text: "2", correct: true },
+          { text: "3", correct: true },
+          { text: "4", correct: false },
+          { text: "5", correct: true }
+        ]
+      },
+      {
+        id: 2,
+        prompt: "Which of the following animals can fly?",
+        answers: [
+          { text: "Eagle", correct: true },
+          { text: "Penguin", correct: false },
+          { text: "Bat", correct: true },
+          { text: "Ostrich", correct: false }
+        ]
+      },
+      {
+        id: 3,
+        prompt: "Select the colors that appear in a typical rainbow:",
+        answers: [
+          { text: "Red", correct: true },
+          { text: "Green", correct: true },
+          { text: "Black", correct: false },
+          { text: "Blue", correct: true }
+        ]
+      }
+    ];
 
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < questions.length) {
-                    displayQuestion();
-                } else {
-                    alert("You Got\n" + correctAnswers + " / " + totalQuestions);
-                    currentQuestionIndex = 0;
-                    correctAnswers = 0;
-                    shuffleArray(questions);
-                    displayQuestion();
-                }
-            }, 800);
-        }
-        
-        displayQuestion();
-    </script>
+    // Fisher–Yates shuffle to randomize the order of the questions.
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+    }
+    // Shuffle the questions array so they come in random order.
+    shuffle(questions);
+
+    // Global variables to track the current question and score.
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    // Function to load the current question into the question box.
+    function loadQuestion() {
+      const questionBox = document.getElementById("question-box");
+      // Clear any previous content.
+      questionBox.innerHTML = "";
+
+      // If there are no more questions, show a completion message.
+      if (currentQuestionIndex >= questions.length) {
+        questionBox.innerHTML = "<h2>Quiz Completed!</h2><p>Your final score is: " + score + " out of " + questions.length + ".</p>";
+        document.getElementById("submit-btn").style.display = "none";
+        return;
+      }
+
+      // Get the current question.
+      const question = questions[currentQuestionIndex];
+
+      // Create and add the prompt.
+      const promptElem = document.createElement("h2");
+      promptElem.textContent = question.prompt;
+      questionBox.appendChild(promptElem);
+
+      // Create a container for the answer choices.
+      const answersContainer = document.createElement("div");
+      answersContainer.classList.add("answers");
+
+      // For each answer, create a checkbox and a label.
+      question.answers.forEach((answer, index) => {
+        const answerDiv = document.createElement("div");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `answer_${index}`;
+        checkbox.name = "answer";
+        checkbox.value = answer.text;
+
+        const label = document.createElement("label");
+        label.htmlFor = checkbox.id;
+        label.textContent = answer.text;
+
+        answerDiv.appendChild(checkbox);
+        answerDiv.appendChild(label);
+        answersContainer.appendChild(answerDiv);
+      });
+
+      // Add the answers to the question box.
+      questionBox.appendChild(answersContainer);
+    }
+
+    // Load the first question when the page loads.
+    loadQuestion();
+
+    // Listen for the form submission.
+    document.getElementById("quiz-form").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      // Get the current question.
+      const question = questions[currentQuestionIndex];
+
+      // Gather the user's selected answers.
+      const selectedCheckboxes = document.querySelectorAll("input[name='answer']:checked");
+      const selectedAnswers = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+      // Determine the correct answers.
+      const correctAnswers = question.answers
+                                .filter(ans => ans.correct)
+                                .map(ans => ans.text);
+
+      // Sort both arrays so they can be compared.
+      selectedAnswers.sort();
+      correctAnswers.sort();
+
+      // If the selected answers exactly match the correct answers, update the score.
+      if (JSON.stringify(selectedAnswers) === JSON.stringify(correctAnswers)) {
+        score++;
+        document.getElementById("score-counter").textContent = "Score: " + score;
+      }
+
+      // Move to the next question and load it.
+      currentQuestionIndex++;
+      loadQuestion();
+    });
+  </script>
 </body>
 </html>
