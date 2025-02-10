@@ -99,53 +99,123 @@
     </div>
     <script>
         const questions = [
-        {
-            prompt: "This law suggests that the number of transistors on a microchip doubles every two years:",
-            options: [
-                "Dalton's Law",
-                "Moore's Law",
-                "Murphy's Law",
-                "Charles' Law"
-            ],
-            correctAnswer: "Moore's Law"
-        },
-        {
-            prompt: "What are the components of a computer?",
-            options: [
-                "CPU",
-                "Monitor – example of Output",
-                "Keyboard – example of Input",
-                "Mouse – example of Input",
-                "RAM",
-                "All of the above"
-            ],
-            correctAnswer: "All of the above"
-        },
-        {
-            prompt: "Which of the following result in an increase in performance?",
-            options: [
-                "Increase Clock period",
-                "Increase Clock Frequency",
-                "Decrease CPI",
-                "Increase execution time",
-                "Decrease number of instructions",
-                "b,c and e"
-            ],
-            correctAnswer: "b,c and e"
-        },
-        {
-            prompt: "Which of the following result in a decrease in performance?",
-            options: [
-                "Increase execution time",
-                "Increase Clock Period",
-                "Decrease CPI",
-                "Decrease Clock Frequency",
-                "Decrease number of instructions",
-                "a,b,and d"
-            ],
-            correctAnswer: "a,b,and d"
-        },
-
+            {
+                prompt: "Earth’s global water budget is a balance of all the inputs and outputs of the hydrologic cycle. The conservation of mass in the context of the global water budget means that:",
+                options: ["Spatial and temporal variability of water fluxes (evaporation, precipitation) can create local imbalances over seasons or decades, but the global water budget stays balanced.",
+                            "Global mean annual evaporation must exactly balance global mean annual precipitation if the water content in the atmosphere is maintained", 
+                            "There is generally a surplus of evaporation over the oceans that brings a surplus of rainfall over land.", 
+                            "All answers are correct."],
+                correctAnswer: "All answers are correct."
+            },
+            {
+                prompt: "What is Potential Evaporation?",
+                options: [
+                    "The evaporation expected when water supply is unlimited",
+                    "Evaporation that will happen during a defined time period, but hasnt happened yet",
+                    "Evaporation from ice (solid to vapor phase transition, no liquid involved)",
+                    "Computed evaporation in climate models rather than actual evaporation"
+                ],
+                correctAnswer: "The evaporation expected when water supply is unlimited"
+            },
+            {
+                prompt: "The North American Regional Reanalysis (NARR) is:",
+                options: [
+                    "a reanalysis of data analyzed incorrectly before we understood climate change.",
+                    "a hybrid of model predictions and observations.",
+                    "just a webtool for internet inquiries.",
+                    "all of the above"
+                ],
+                correctAnswer: "a hybrid of model predictions and observations."
+            },
+            {
+                prompt: "Evaporation rates are higher over the oceans than over land because:",
+                options: [
+                    "The high salt content in ocean water enhances evaporation because it reduces the latent heat of vaporization.",
+                    "Terrestrial evaporation (on land) is at least partially water limited.",
+                    "The atmosphere over the oceans is generally less cloudy.",
+                    "All of the above"
+                ],
+                correctAnswer: "Terrestrial evaporation (on land) is at least partially water limited."
+            },
+            {
+                prompt: "In this plot of Annual Evapotranspiration vs. Annual Temperature, why is Evapotranspiration high in the southeastern United States?",
+                options: [
+                    "Temperature and thus Potential Evapotranspiration is high",
+                    "The high humidity increases Potential Evapotranspiration",
+                    "Precipitation is high here",
+                    "all of the above",
+                    "Only a and c"
+                ],
+                correctAnswer: "Only a and c"
+            },
+            {
+                prompt: "What does the Stefan-Boltzmann equation (I = σT⁴) tell us?",
+                options: [
+                    "Planetary bodies must conserve energy",
+                    "The intensity of radiation from a black body increases very rapidly with temperature",
+                    "The intensity of radiation from a black body decreases with temperature, but very slowly",
+                    "The wavelength of radiant energy depends sensitively on temperature"
+                ],
+                correctAnswer: "The intensity of radiation from a black body increases very rapidly with temperature"
+            },
+            {
+                prompt: "Why does the distance from the sun to a planet affect planetary temperature and thus habitability?",
+                options: [
+                    "Because more distant planets tend to be composed more of ice like comets",
+                    "Because the intensity of solar radiation declines with the distance from the sun squared as the light spreads out in all directions",
+                    "Because the speed of a planets orbit increases with distance from the sun (a lot farther to go in one year)",
+                    "The radiant energy leaving the sun decreases with distance it gradually slows and thus loses energy along the way"
+                ],
+                correctAnswer: "Because the intensity of solar radiation declines with the distance from the sun squared as the light spreads out in all directions"
+            },
+            {
+                prompt: "Is a Cloudy Day at the same time of year warmer or cooler than a Sunny Day?",
+                options: [
+                    "warmer",
+                    "the same",
+                    "cooler"
+                ],
+                correctAnswer: "cooler"
+            },
+            {
+                prompt: "Is a Cloudy Night (or early morning) following a day with a given temperature warmer or cooler than a Clear Night?",
+                options: [
+                    "warmer",
+                    "the same",
+                    "cooler"
+                ],
+                correctAnswer: "warmer"
+            },
+            {
+                prompt: "Why is Wien’s Law (λ_max = 2900/T) so important to Earth’s temperature – specifically, why is Wien’s law critical to the presence of liquid water on the Earth’s surface?",
+                options: [
+                    "Wien’s law tells us that planetary bodies must conserve energy",
+                    "Wien’s law is the key to the greenhouse gas effect, which warms the planet enough to maintain liquid water",
+                    "Wien’s law tells us how distance from the sun influences planetary temperature",
+                    "Wien’s law explains why ozone absorbs ultraviolet light"
+                ],
+                correctAnswer: "Wien’s law is the key to the greenhouse gas effect, which warms the planet enough to maintain liquid water"
+            },
+            {
+                prompt: "Why does mean annual temperature decrease toward the poles?",
+                options: [
+                    "Cold arctic (or antarctic) winds keep it chilly even in summer",
+                    "Sunlight comes in at a low angle near the poles, spreading its energy over a larger area",
+                    "Cloud cover (averaged over a year) increases as you go north (just picture Seattle)",
+                    "Ocean currents carry heat away from the poles toward the equator"
+                ],
+                correctAnswer: "Sunlight comes in at a low angle near the poles, spreading its energy over a larger area"
+            },
+            {
+                prompt: "Why is rainfall more concentrated near the equator – at the inter-tropical convergence zone (ITCZ) – than is the water content of the atmosphere (the amount of 'precipitable water')?",
+                options: [
+                    "Because evaporation is concentrated in a narrow band at the equator (or ITCZ)",
+                    "Because air descends along the ITCZ, bringing moisture down and causing precipitation",
+                    "Because surface winds sweep toward the equator and rise along ITCZ, causing precipitation as the air cools",
+                    "Because the Coriolis force creates easterly (from the east) surface winds in the tropics"
+                ],
+                correctAnswer: "Because surface winds sweep toward the equator and rise along ITCZ, causing precipitation as the air cools"
+            }
         ];
         
         let currentQuestionIndex = 0;
