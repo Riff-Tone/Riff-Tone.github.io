@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Single Question Quiz</title>
+  <title>Multiple Choice Quiz</title>
   <style>
     /* Basic styling for the page */
     body {
@@ -38,19 +38,37 @@
     .answers div {
       margin-bottom: 10px;
     }
-    /* Submit button styling */
-    #submit-btn {
+    /* Submit and Next button styling */
+    #submit-btn, #next-btn {
       margin-top: 20px;
       padding: 10px 15px;
       font-size: 16px;
-      background: #4CAF50;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
     }
+    #submit-btn {
+      background: #4CAF50;
+    }
     #submit-btn:hover {
       background: #45a049;
+    }
+    #next-btn {
+      background: #007bff;
+      display: none; /* Hidden by default */
+    }
+    #next-btn:hover {
+      background: #0056b3;
+    }
+    /* Styling for correct and incorrect answers */
+    .correct {
+      color: green;
+      font-weight: bold;
+    }
+    .incorrect {
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -65,13 +83,12 @@
         <!-- Question prompt and answers will be loaded here dynamically -->
       </div>
       <button type="submit" id="submit-btn">Submit Answer</button>
+      <button type="button" id="next-btn">Next</button>
     </form>
   </div>
 
   <script>
     // Array of question objects.
-    // Each question has a prompt and an array of answers.
-    // For each answer, the property "correct" determines if that answer is right.
     const questions = [
       {
         id: 1,
@@ -112,7 +129,6 @@
         [array[i], array[j]] = [array[j], array[i]];
       }
     }
-    // Shuffle the questions array so they come in random order.
     shuffle(questions);
 
     // Global variables to track the current question and score.
@@ -122,13 +138,13 @@
     // Function to load the current question into the question box.
     function loadQuestion() {
       const questionBox = document.getElementById("question-box");
-      // Clear any previous content.
       questionBox.innerHTML = "";
 
       // If there are no more questions, show a completion message.
       if (currentQuestionIndex >= questions.length) {
         questionBox.innerHTML = "<h2>Quiz Completed!</h2><p>Your final score is: " + score + " out of " + questions.length + ".</p>";
         document.getElementById("submit-btn").style.display = "none";
+        document.getElementById("next-btn").style.display = "none";
         return;
       }
 
@@ -165,6 +181,10 @@
 
       // Add the answers to the question box.
       questionBox.appendChild(answersContainer);
+
+      // Reset button states
+      document.getElementById("submit-btn").style.display = "inline-block";
+      document.getElementById("next-btn").style.display = "none";
     }
 
     // Load the first question when the page loads.
@@ -190,12 +210,37 @@
       selectedAnswers.sort();
       correctAnswers.sort();
 
-      // If the selected answers exactly match the correct answers, update the score.
-      if (JSON.stringify(selectedAnswers) === JSON.stringify(correctAnswers)) {
+      // Check if the selected answers match the correct answers.
+      const isCorrect = JSON.stringify(selectedAnswers) === JSON.stringify(correctAnswers);
+
+      // Update the score if the answer is correct.
+      if (isCorrect) {
         score++;
         document.getElementById("score-counter").textContent = "Score: " + score;
       }
 
+      // Highlight correct and incorrect answers.
+      const labels = document.querySelectorAll("label");
+      labels.forEach(label => {
+        const isSelected = selectedAnswers.includes(label.textContent);
+        const isActuallyCorrect = correctAnswers.includes(label.textContent);
+
+        if (isSelected && isActuallyCorrect) {
+          label.classList.add("correct");
+        } else if (isSelected && !isActuallyCorrect) {
+          label.classList.add("incorrect");
+        } else if (!isSelected && isActuallyCorrect) {
+          label.classList.add("correct");
+        }
+      });
+
+      // Disable the submit button and enable the next button.
+      document.getElementById("submit-btn").style.display = "none";
+      document.getElementById("next-btn").style.display = "inline-block";
+    });
+
+    // Listen for the Next button click.
+    document.getElementById("next-btn").addEventListener("click", function() {
       // Move to the next question and load it.
       currentQuestionIndex++;
       loadQuestion();
