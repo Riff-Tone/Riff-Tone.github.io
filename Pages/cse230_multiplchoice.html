@@ -70,11 +70,27 @@
       color: red;
       font-weight: bold;
     }
+    .top-left {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        #button_back {
+            background-color: #6fa8dcff;
+            color: black;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 15px;
+            transition-duration: 0.4s;
+        }
   </style>
 </head>
 <body>
   <!-- Score Counter -->
   <div id="score-counter">Score: 0</div>
+  <a href="../index.html">
+    <button type="button" class="top-left" id="button_back">Quit</button>
+</a>
 
   <!-- Quiz container that holds the question box -->
   <div class="quiz-container">
