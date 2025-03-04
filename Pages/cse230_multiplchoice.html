@@ -90,36 +90,270 @@
   <script>
     // Array of question objects.
     const questions = [
-      {
-        id: 1,
-        prompt: "Which of the following numbers are prime?",
-        answers: [
-          { text: "2", correct: true },
-          { text: "3", correct: true },
-          { text: "4", correct: false },
-          { text: "5", correct: true }
-        ]
-      },
-      {
-        id: 2,
-        prompt: "Which of the following animals can fly?",
-        answers: [
-          { text: "Eagle", correct: true },
-          { text: "Penguin", correct: false },
-          { text: "Bat", correct: true },
-          { text: "Ostrich", correct: false }
-        ]
-      },
-      {
-        id: 3,
-        prompt: "Select the colors that appear in a typical rainbow:",
-        answers: [
-          { text: "Red", correct: true },
-          { text: "Green", correct: true },
-          { text: "Black", correct: false },
-          { text: "Blue", correct: true }
-        ]
-      }
+    {
+      id: 1,
+      prompt: "Which of the following are TRUE?",
+      answers: [
+        { text: "The seven great ideas in computer architecture help improve performance", correct: true },
+        { text: "Pipelining can be considered as a particular pattern of parallelism", correct: true },
+        { text: "For different inputs, pipelining performs different subtasks in parallel, while parallelism performs same subtask in parallel", correct: true },
+        { text: "Prediction implies to make a guess and start working on it rather than waiting", correct: true }
+      ]
+    },
+    {
+      id: 2,
+      prompt: "Match the following:",
+      answers: [
+        { text: "A mechanism through which the computer is fed information", correct: true },
+        { text: "A device combining dozens to millions of transistors", correct: true },
+        { text: "A mechanism that conveys the result of a computation to a user", correct: true },
+        { text: "The active part of the computer", correct: true }
+      ]
+    },
+    {
+      id: 3,
+      prompt: "Which of the following best matches the definition of the IO or Peripherals?",
+      answers: [
+        { text: "Contains the ALU and Registers, and the interconnection between them.", correct: false },
+        { text: "Operates on one or more numerical values to perform calculations and operations on data.", correct: false },
+        { text: "Stores a large number of pieces of information, including program data and instructions.", correct: false },
+        { text: "Coordinates the flow of information around the processor.", correct: false },
+        { text: "Stores a small number of pieces of information, commonly the temporary results of calculations.", correct: false },
+        { text: "Carries data between the ALU, registers, memory, and peripherals.", correct: false },
+        { text: "Acts as an interface between the processor and the outside world, including long-term storage and user interfaces.", correct: true }
+      ]
+    },
+    {
+      id: 4,
+      prompt: "The ______ of the CPU operate(s) on one or more numerical values to perform calculations and operations on data.",
+      answers: [
+        { text: "ALU", correct: true },
+        { text: "Memory", correct: false },
+        { text: "Control Unit", correct: false },
+        { text: "Registers", correct: false },
+        { text: "Bus", correct: false },
+        { text: "I/O Peripherals", correct: false }
+      ]
+    },
+    {
+      id: 5,
+      prompt: "Which of the following best matches the definition for Syntax Analysis?",
+      answers: [
+        { text: "Separates the input source code text into tokens.", correct: false },
+        { text: "Performs syntax rules checking and constructs a symbol table and abstract syntax tree.", correct: true },
+        { text: "Performs program analysis and optimization.", correct: false },
+        { text: "Arranges the symbol table in memory and generates final executable machine code.", correct: false },
+        { text: "Combines partial programs and libraries into a single executable.", correct: false },
+        { text: "Translates assembly language code into machine code.", correct: false }
+      ]
+    },
+    {
+      id: 6,
+      prompt: "Which of the following best matches the function of the Linker in the compilation process?",
+      answers: [
+        { text: "Separates the input source code text into tokens.", correct: false },
+        { text: "Performs syntax rules checking and constructs a symbol table and abstract syntax tree.", correct: false },
+        { text: "Performs program analysis and optimization.", correct: false },
+        { text: "Arranges the symbol table in memory and generates final executable machine code.", correct: false },
+        { text: "Combines partial programs and libraries into a single executable.", correct: true },
+        { text: "Translates assembly language code into machine code.", correct: false }
+      ]
+    },
+    {
+      id: 7,
+      prompt: "A designer chooses to use an organization that increases the logic depth of the processor. All else being constant, will the performance likely increase, decrease, or stay the same?",
+      answers: [
+        { text: "Increase", correct: false },
+        { text: "Stay the Same", correct: false },
+        { text: "Decrease", correct: true }
+      ]
+    },
+    {
+      id: 8,
+      prompt: "When the execution time of a program on a computer increases, one or more of the following increase:",
+      answers: [
+        { text: "Performance", correct: false },
+        { text: "CPU clock cycles", correct: true },
+        { text: "Clock rate", correct: false },
+        { text: "Cycles per Instruction", correct: true }
+      ]
+    },
+    {
+      id: 9,
+      prompt: "Which of the following are TRUE?",
+      answers: [
+        { text: "Response time is the time required to complete a task", correct: true },
+        { text: "Execution time is the time required to complete a task", correct: true },
+        { text: "Throughput is the number of tasks completed per unit time", correct: true },
+        { text: "Bandwidth is the number of tasks completed per unit time", correct: true }
+      ]
+    },
+    {
+      id: 10,
+      prompt: "Compare the two given code segments:\n\nCode1:\n\nsll $t5, $t3, 1\n\nCode2:\n\nadd $t5, $t3, $t3",
+      answers: [
+        { text: "Same", correct: true },
+        { text: "Different", correct: false }
+      ]
+    },
+    {
+      id: 11,
+      prompt: "Which of the following is the correct expression for the C code:\n\nd = 0b'101011 | e\n\nwhere d, e are in $s1, $s2 respectively",
+      answers: [
+        { text: "ori $s1, 43, $s2", correct: false },
+        { text: "ori $s1, 41, $s2", correct: false },
+        { text: "ori $s1, $s2, 41", correct: false },
+        { text: "ori $s1, $s2, 43", correct: true }
+      ]
+    },
+    {
+      id: 12,
+      prompt: "Which of the following is the correct expression for the C code:\n\nd = 0b'101101 & e\n\nwhere d, e are in $s1, $s2 respectively",
+      answers: [
+        { text: "andi $s1, 43, $s2", correct: false },
+        { text: "andi $s1, 45, $s2", correct: false },
+        { text: "andi $s1, $s2, 43", correct: false },
+        { text: "andi $s1, $s2, 45", correct: true }
+      ]
+    },
+    {
+      id: 13,
+      prompt: "Which of the following are TRUE for MIPS architecture?",
+      answers: [
+        { text: "Memory Unit contains (2^32 -1) bytes", correct: false },
+        { text: "Memory Unit contains 2^30 words", correct: true },
+        { text: "Memory Unit contains 2^32 bytes", correct: true },
+        { text: "Memory Unit contains (2^30 -1) words", correct: false }
+      ]
+    },
+    {
+      id: 14,
+      prompt: "Do the following two code segments perform the same operation?\n\n($at = temporary register used by Assembler when converting Pseudo instructions to core instructions)\n\nCode1:\n\nStart: bgt $s0, $s1, Label\n       j Exit\n\nLabel:\nExit:\n\nCode2:\n\nStart: slt $at, $s0, $s1\n       bne $at, $0, Exit\n       beq $s0, $s1, Exit\n\nLabel:\nExit:",
+      answers: [
+        { text: "True", correct: true },
+        { text: "False", correct: false }
+      ]
+    },
+    {
+      id: 15,
+      prompt: "The following two codes perform the same task:\n\nCode1:\n\nli $s1, 0x12345678\n\nCode2:\n\nori $s1, $s1, 0x5678\nlui $s1, 0x1234",
+      answers: [
+        { text: "True", correct: false },
+        { text: "False", correct: true }
+      ]
+    },
+    {
+      id: 16,
+      prompt: "Which of the following lines have incorrect syntax?",
+      answers: [
+        { text: "j $ra", correct: true },
+        { text: "jal $ra", correct: true },
+        { text: "jr Label", correct: true },
+        { text: "jal Label", correct: false }
+      ]
+    },
+    {
+      id: 17,
+      prompt: "What register stores a return value of a procedure?",
+      answers: [
+        { text: "$ra", correct: false },
+        { text: "$v0", correct: true },
+        { text: "$at", correct: false },
+        { text: "$sp", correct: false },
+        { text: "$a0", correct: false },
+        { text: "$t0", correct: false },
+        { text: "$s0", correct: false }
+      ]
+    },
+    {
+      id: 18,
+      prompt: "When we write the instruction 'addi $sp, $sp, 8', most likely we are preparing for:",
+      answers: [
+        { text: "Saving registers to stack", correct: false },
+        { text: "Executing instruction jr $ra", correct: true },
+        { text: "Executing instruction jal", correct: false },
+        { text: "Executing instruction j", correct: false }
+      ]
+    },
+    {
+      id: 19,
+      prompt: "Which of the following are TRUE in the context of MIPS ISA (Instruction Set Architecture) or simply MIPS Instructions?",
+      answers: [
+        { text: "Integer operations and floating point operations require different registers", correct: true },
+        { text: "Integer operations and floating point operations require different instructions", correct: true },
+        { text: "Integer operations and floating point operations require different hardware", correct: true },
+        { text: "None of the above", correct: false }
+      ]
+    },
+    {
+      id: 20,
+      prompt: "Which of the following are TRUE for MIPS architecture?",
+      answers: [
+        { text: "Memory Unit contains (2^32 -1) bytes", correct: false },
+        { text: "Memory Unit contains 2^30 words", correct: true },
+        { text: "Memory Unit contains 2^32 bytes", correct: true },
+        { text: "Memory Unit contains (2^30 -1) words", correct: false }
+      ]
+    },
+    {
+      id: 21,
+      prompt: "Which of the following are Signed Operations?",
+      answers: [
+        { text: "addi", correct: true },
+        { text: "addiu", correct: true },
+        { text: "sltiu", correct: false },
+        { text: "slti", correct: true }
+      ]
+    },
+    {
+      id: 22,
+      prompt: "Which of the following instructions follow the MIPS Immediate Addressing?",
+      answers: [
+        { text: "lw", correct: false },
+        { text: "andi", correct: true },
+        { text: "slti", correct: true },
+        { text: "beq", correct: false }
+      ]
+    },
+    {
+      id: 23,
+      prompt: "In which of the following situations will endianness become an issue?",
+      answers: [
+        { text: "Transferring a memory block from a Little-Endian processor to a Big-Endian processor.", correct: true },
+        { text: "Transferring a memory block from a Big-Endian processor to a Little-Endian processor.", correct: true },
+        { text: "Transferring a memory block from a Little-Endian processor to a Little-Endian processor.", correct: false },
+        { text: "Transferring a memory block from a Big-Endian processor to a Big-Endian processor.", correct: false }
+      ]
+    },
+    {
+      id: 24,
+      prompt: "A variable of type signed int stores a value of 2,147,483,647. If the variable value is decremented, what exception will occur?",
+      answers: [
+        { text: "Underflow", correct: false },
+        { text: "No exception", correct: true },
+        { text: "Overflow", correct: false }
+      ]
+    },
+    {
+      id: 25,
+      prompt: "Which (one or more) of the following are TRUE in the context of overflow?",
+      answers: [
+        { text: "Arithmetic overflow does not occur for multiplication or division.", correct: true },
+        { text: "A carry-out in addition implies an overflow.", correct: false },
+        { text: "If there is a carry-in or carry-out, but not both, then it implies an overflow.", correct: true },
+        { text: "Overflow occurs when the operands for subtraction are of different signs and the difference (result) has the sign of the 2nd operand.", correct: true }
+      ]
+    },
+    {
+      id: 26,
+      prompt: "Which of the following are TRUE about the Sequential Shift and Subtract Division Algorithm for 32-bit division?",
+      answers: [
+        { text: "The recursive step is repeated 32 times", correct: false },
+        { text: "The dividend and divisor should be made positive", correct: true },
+        { text: "The sign of Quotient is the same as that of Dividend", correct: false },
+        { text: "The sign of Remainder is the same as that of Dividend", correct: true }
+      ]
+    }
     ];
 
     // Fisher–Yates shuffle to randomize the order of the questions.
