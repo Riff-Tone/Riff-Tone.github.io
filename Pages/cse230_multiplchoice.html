@@ -244,7 +244,26 @@
     },
     {
       id: 14,
-      prompt: "Do the following two code segments perform the same operation?\n\n($at = temporary register used by Assembler when converting Pseudo instructions to core instructions)\n\nCode1:\n\nStart: bgt $s0, $s1, Label\n       j Exit\n\nLabel:\nExit:\n\nCode2:\n\nStart: slt $at, $s0, $s1\n       bne $at, $0, Exit\n       beq $s0, $s1, Exit\n\nLabel:\nExit:",
+      prompt: `Do the following two code segments perform the same operation?
+
+    ($at = temporary register used by Assembler when converting Pseudo instructions to core instructions)
+
+    Code1:
+
+    Start: bgt $s0, $s1, Label
+          j Exit
+
+    Label:
+    Exit:
+
+    Code2:
+
+    Start: slt $at, $s0, $s1
+          bne $at, $0, Exit
+          beq $s0, $s1, Exit
+
+    Label:
+    Exit:`,
       answers: [
         { text: "True", correct: true },
         { text: "False", correct: false }
